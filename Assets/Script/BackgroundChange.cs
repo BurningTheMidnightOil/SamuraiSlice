@@ -16,7 +16,7 @@ public class BackgroundChange : MonoBehaviour
         background.color = Color.black;
     }
    
-    void ChangeColorToWhite(){
+    void ChangeColorToWhite(string winner){
         background.color = Color.white;
     }
 }

@@ -19,7 +19,7 @@ public class TimerText : MonoBehaviour
         timerText.text = (time).ToString();
     }
 
-    void ChangeColor(){
+    void ChangeColor(string winner){
         timerText.color = Color.black;
     }
 }

@@ -4,16 +4,72 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    [SerializeField] AudioSource initialBGSound1;
-    [SerializeField] AudioSource initialBGSound2;
+    [Header("On Duel")]
+    [SerializeField] AudioClip initialBGSound1;
+    [SerializeField] AudioClip initialBGSound2;
 
-    [SerializeField] AudioSource alertFX;
+    [Header("On Clash")]
+    [SerializeField] AudioClip alertFX;
 
-    [SerializeField] AudioSource attackFX;
+    [SerializeField] AudioClip attackFX;
 
-    [SerializeField] AudioSource dyingFX;
+    [SerializeField] AudioClip dyingFX;
 
-    [SerializeField] AudioSource fanfareFX;
+    [Header("After Clash")]
+    [SerializeField] AudioClip fanfareFX;
 
-    [SerializeField] AudioSource mourningFX;
+    [SerializeField] AudioClip mourningFX;
+
+
+    [Header("Audio Sources")]
+
+    [SerializeField] AudioSource backgroundSound1;
+
+    [SerializeField] AudioSource backgroundSound2;
+
+    void Awake () {
+        GameManager.Instance.call_OnStartDuel_Events += PlayInitialBackgorundSound;
+        GameManager.Instance.call_OnStartClash_Events += PlayClashSounds;
+        GameManager.Instance.call_OnEndClash_Events += PlayEndClashSounds;
+        GameManager.Instance.call_OnEndSequence_Events += PlayEndSequenceSounds;
+    }
+
+    void PlayInitialBackgorundSound() {
+        backgroundSound1.clip = initialBGSound1;
+        backgroundSound1.Play();
+
+        backgroundSound2.clip = initialBGSound2;
+        backgroundSound2.Play();
+    }
+
+    void PlayClashSounds(){
+        StopPlaying();
+
+        backgroundSound1.PlayOneShot(alertFX);
+    }
+
+    void PlayEndClashSounds(string winner){
+        if(winner == "player"){
+            backgroundSound1.PlayOneShot(attackFX);
+        } else if(winner == "enemy"){
+            backgroundSound1.PlayOneShot(dyingFX);
+        }
+    }
+
+    void PlayEndSequenceSounds(string winner)
+    {
+        if (winner == "player")
+        {
+            backgroundSound1.PlayOneShot(fanfareFX);
+        }
+        else if (winner == "enemy")
+        {
+            backgroundSound1.PlayOneShot(mourningFX);
+        }
+    }
+
+    void StopPlaying(){
+        backgroundSound1.Stop();
+        backgroundSound2.Stop();
+    }
 }

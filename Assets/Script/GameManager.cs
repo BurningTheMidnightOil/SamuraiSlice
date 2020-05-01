@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] float timeToReact = 3f;
+    [SerializeField] int timeToReact = 30;
     [SerializeField] float randomLowerTime = 2f;
     [SerializeField] float randomUpperTime = 4f;
+
+    string winnerOfClash = "";
 
     public delegate void OnStartDuel();
     public event OnStartDuel call_OnStartDuel_Events;
@@ -17,11 +19,14 @@ public class GameManager : MonoBehaviour
     public delegate void OnUpdateTime(float time);
     public event OnUpdateTime call_OnUpdateTime_Events;
 
-    public delegate void OnEndClash();
+    public delegate void OnEndClash(string winner);
     public event OnEndClash call_OnEndClash_Events;
 
+    public delegate void OnEndSequence(string winner);
+    public event OnEndSequence call_OnEndSequence_Events;
+
     bool started = false;
-    float timer;
+    int timer;
 
     static GameManager _instance;
     public static GameManager Instance
@@ -54,27 +59,44 @@ public class GameManager : MonoBehaviour
         }
     }
     void Start(){
-        StartCoroutine("PassOneSecond");
-    }
-    public void StopTimerOnClick()
-    {
-        Debug.Log("Time stopped");
-        StopCoroutine("PassOneSecond");
-        if (call_OnEndClash_Events != null)
+        if (call_OnStartDuel_Events != null)
         {
-            call_OnEndClash_Events();
+            call_OnStartDuel_Events();
+        }
+        StartCoroutine("MainLoop");
+    }
+    public void PlayerClick()
+    {
+        if(started){
+            EndClash("player");
         }
     }
 
-    IEnumerator PassOneSecond(){
+    void EndClash(string winner){
+        if(winnerOfClash != null){
+            winnerOfClash = winner;
+            StopCoroutine("MainLoop");
+            StartCoroutine("EndSequence");
+            if (call_OnEndClash_Events != null)
+            {
+                call_OnEndClash_Events(winner);
+            }
+        }
+    }
+
+    IEnumerator MainLoop(){
         while(true){
-            Debug.Log("One second has passed");
             if(started){
-                timer += 1;
-                if(call_OnUpdateTime_Events != null){
-                    call_OnUpdateTime_Events(timer);
+                if(timer >= timeToReact){
+                    EndClash("enemy");
+                    yield return null;
+                } else {
+                    timer += 1;
+                    if(call_OnUpdateTime_Events != null){
+                        call_OnUpdateTime_Events(timer);
+                    }
+                    yield return new WaitForSeconds(0.01f);
                 }
-                yield return new WaitForSeconds(0.01f);
             } else {
                 float preparationTime = Random.Range(randomLowerTime, randomUpperTime);
                 Debug.Log(preparationTime);
@@ -86,5 +108,10 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator EndSequence(){
+        yield return new WaitForSeconds(1f);
+        call_OnEndSequence_Events(winnerOfClash);
     }
 }
