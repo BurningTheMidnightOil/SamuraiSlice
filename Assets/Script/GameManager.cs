@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] int timeToReact = 30;
     [SerializeField] float randomLowerTime = 2f;
     [SerializeField] float randomUpperTime = 4f;
+
+    [SerializeField] GameObject nextButton;
     [SerializeField] GameObject enemyGameObject;
 
     [SerializeField] List<EnemyInfo> enemies;
@@ -79,18 +82,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void EndClash(string winner){
-        if(winnerOfClash == null){
-            winnerOfClash = winner;
-            StopCoroutine("MainLoop");
-            StartCoroutine("EndSequence");
-            if (call_OnEndClash_Events != null)
-            {
-                call_OnEndClash_Events(winner);
-            }
-        }
-    }
-
     IEnumerator MainLoop(){
 
         //Set enemy
@@ -124,16 +115,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void EndClash(string winner)
+    {
+        if (winnerOfClash == null)
+        {
+            winnerOfClash = winner;
+            StopCoroutine("MainLoop");
+            StartCoroutine("EndSequence");
+            if (call_OnEndClash_Events != null)
+            {
+                call_OnEndClash_Events(winner);
+            }
+        }
+    }
+
     IEnumerator EndSequence(){
         yield return new WaitForSeconds(1f);
-        call_OnEndSequence_Events(winnerOfClash);
+        if(call_OnEndSequence_Events != null){
+            call_OnEndSequence_Events(winnerOfClash);
+        }
+        yield return new WaitForSeconds(3f);
+        PlayerState.Instance.enemyIdx++;
+        ShowNextButton();
     }
 
     void NextEnemy(){
+        enemyIdx = PlayerState.Instance.enemyIdx;
         Samurai enemy = enemyGameObject.GetComponent<Samurai>();        
         Color enemyColor = new Color(enemies[enemyIdx].r, enemies[enemyIdx].g, enemies[enemyIdx].b);
-        enemy.SetColor(enemyColor);    
+        enemy.SetColor(enemyColor);
         timeToReact = enemies[enemyIdx].timeToReact;
-        enemyIdx++;
+    }
+
+    void NextScene(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    void ShowNextButton(){
+        nextButton.SetActive(true);
     }
 }
