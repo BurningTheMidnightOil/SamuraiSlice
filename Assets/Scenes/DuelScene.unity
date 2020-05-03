@@ -1467,10 +1467,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f44039bc6159f46b343bc587939d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialBGSound1: {fileID: 8300000, guid: f63538d438d16024da2fb68a41234578, type: 3}
-  initialBGSound2: {fileID: 8300000, guid: 954b3355443848c44920b7a9db2f6322, type: 3}
-  alertFX: {fileID: 8300000, guid: af6e4f116d7359d43bc4f32851d44ff3, type: 3}
-  attackFX: {fileID: 8300000, guid: 08148f9fdc96d9d4292dd3f5a6b8b726, type: 3}
+  initialBGSound1: {fileID: 0}
+  initialBGSound2: {fileID: 8300000, guid: 80de04ee030bdd0458cbc8cdd4328bb6, type: 3}
+  alertFX: {fileID: 8300000, guid: 08148f9fdc96d9d4292dd3f5a6b8b726, type: 3}
+  attackFX: {fileID: 8300000, guid: f1fa5c3e55e86ae4583e86a8355a5683, type: 3}
   dyingFX: {fileID: 8300000, guid: e3a731dbc115db4408ef8ff90732646f, type: 3}
   fanfareFX: {fileID: 8300000, guid: 3251e13b2bb803846a8dd98c1bdb6f1f, type: 3}
   mourningFX: {fileID: 8300000, guid: 9c3e07b11145f7345825bad3b2691132, type: 3}
