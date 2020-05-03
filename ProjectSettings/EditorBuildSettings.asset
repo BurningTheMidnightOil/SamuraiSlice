@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DuelScene.unity
     guid: b90e0ba0a08f0dd4a973d81c52987f8e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DuelScene2.unity
     guid: eebad56260e660d4f82f8e9e214ba9fe
   m_configObjects: {}

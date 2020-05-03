@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float provocationTime = 3f;
     [SerializeField] float randomLowerTime = 2f;
     [SerializeField] float randomUpperTime = 4f;
+    [SerializeField] float delayedDeathTime = 1f;
     [SerializeField] GameObject nextButton;
     [SerializeField] GameObject retryButton;
     [SerializeField] GameObject enemyGameObject;
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
 
     public delegate void OnEndClash(string winner);
     public event OnEndClash call_OnEndClash_Events;
+
+    public delegate void OnDelayedDeath(string winner);
+    public event OnDelayedDeath call_OnDelayedDeath_Events;
 
     public delegate void OnEndSequence(string winner);
     public event OnEndSequence call_OnEndSequence_Events;
@@ -137,6 +141,11 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator EndSequence(){
+        yield return new WaitForSeconds(delayedDeathTime);
+        if (call_OnDelayedDeath_Events != null)
+        {
+            call_OnDelayedDeath_Events(winnerOfClash);
+        }
         yield return new WaitForSeconds(1f);
         if(call_OnEndSequence_Events != null){
             call_OnEndSequence_Events(winnerOfClash);
@@ -168,5 +177,9 @@ public class GameManager : MonoBehaviour
 
     public float GetProvocationTime(){
         return provocationTime;
+    }
+
+    public float GetDelayedDeathTime(){
+        return delayedDeathTime;
     }
 }
