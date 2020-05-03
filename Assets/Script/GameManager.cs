@@ -8,8 +8,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] int timeToReact = 30;
     [SerializeField] float randomLowerTime = 2f;
     [SerializeField] float randomUpperTime = 4f;
+    [SerializeField] GameObject enemyGameObject;
 
-    string winnerOfClash = "";
+    [SerializeField] List<EnemyInfo> enemies;
+
+    int enemyIdx = 0;
+
+    string winnerOfClash;
+    bool started = false;
+    bool counting = false;
+    int timer;
 
     public delegate void OnStartDuel();
     public event OnStartDuel call_OnStartDuel_Events;
@@ -24,9 +32,6 @@ public class GameManager : MonoBehaviour
 
     public delegate void OnEndSequence(string winner);
     public event OnEndSequence call_OnEndSequence_Events;
-
-    bool started = false;
-    int timer;
 
     static GameManager _instance;
     public static GameManager Instance
@@ -69,11 +74,13 @@ public class GameManager : MonoBehaviour
     {
         if(started){
             EndClash("player");
+        } else if(counting) {
+            EndClash("enemy");
         }
     }
 
     void EndClash(string winner){
-        if(winnerOfClash != null){
+        if(winnerOfClash == null){
             winnerOfClash = winner;
             StopCoroutine("MainLoop");
             StartCoroutine("EndSequence");
@@ -85,6 +92,14 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator MainLoop(){
+
+        //Set enemy
+        NextEnemy();
+
+        //Stop spamming logic
+        yield return new WaitForSeconds(3f);
+        counting = true;
+
         while(true){
             if(started){
                 if(timer >= timeToReact){
@@ -99,7 +114,6 @@ public class GameManager : MonoBehaviour
                 }
             } else {
                 float preparationTime = Random.Range(randomLowerTime, randomUpperTime);
-                Debug.Log(preparationTime);
                 yield return new WaitForSeconds(preparationTime);
                 started = true;
                 if (call_OnStartClash_Events != null)
@@ -113,5 +127,13 @@ public class GameManager : MonoBehaviour
     IEnumerator EndSequence(){
         yield return new WaitForSeconds(1f);
         call_OnEndSequence_Events(winnerOfClash);
+    }
+
+    void NextEnemy(){
+        Samurai enemy = enemyGameObject.GetComponent<Samurai>();        
+        Color enemyColor = new Color(enemies[enemyIdx].r, enemies[enemyIdx].g, enemies[enemyIdx].b);
+        enemy.SetColor(enemyColor);    
+        timeToReact = enemies[enemyIdx].timeToReact;
+        enemyIdx++;
     }
 }

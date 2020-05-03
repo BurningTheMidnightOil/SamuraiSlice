@@ -226,7 +226,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2098335536}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -353,7 +353,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2098335536}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -375,6 +375,16 @@ MonoBehaviour:
   timeToReact: 100
   randomLowerTime: 2
   randomUpperTime: 4
+  enemyGameObject: {fileID: 1457969801}
+  enemies:
+  - r: 0.5
+    g: 0.5
+    b: 0.7
+    timeToReact: 120
+  - r: 0.1
+    g: 0.3
+    b: 0.8
+    timeToReact: 100
 --- !u!1 &150264673
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +418,7 @@ RectTransform:
   m_Children:
   - {fileID: 1519373926}
   m_Father: {fileID: 2098335536}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -784,7 +794,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2098335536}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -971,7 +981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6130322ef1acaba47982eae728ef822b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: player
+  samuraiName: player
   topImage: {fileID: 101462907}
   bottomImage: {fileID: 887707182}
 --- !u!222 &973771150
@@ -1219,7 +1229,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2098335536}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1328,7 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6130322ef1acaba47982eae728ef822b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: enemy
+  samuraiName: enemy
   topImage: {fileID: 367698092}
   bottomImage: {fileID: 1144565232}
 --- !u!222 &1457969804
@@ -1842,11 +1852,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 139597052}
   - {fileID: 1211532783}
   - {fileID: 701663380}
   - {fileID: 120743635}
   - {fileID: 150264674}
-  - {fileID: 139597052}
   - {fileID: 1563988360}
   - {fileID: 973771147}
   - {fileID: 1457969802}

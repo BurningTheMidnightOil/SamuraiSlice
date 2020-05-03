@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Samurai : MonoBehaviour
 {
-    [SerializeField] string name;
+    [SerializeField] string samuraiName;
 
     [SerializeField] GameObject topImage;
     [SerializeField] GameObject bottomImage;
@@ -15,7 +15,7 @@ public class Samurai : MonoBehaviour
     }
 
     void ReactToEndClash(string winner){
-        if(winner == name){
+        if(winner == samuraiName){
             Win();
         } else {
             Die();
@@ -27,9 +27,12 @@ public class Samurai : MonoBehaviour
     }
 
     void Die(){
-        topImage.GetComponent<Image>().color = Color.red;
-        bottomImage.GetComponent<Image>().color = Color.red;
-
+        SetColor(Color.red);
         topImage.GetComponent<RectTransform>().localPosition += new Vector3(38, 0, 0); 
+    }
+
+    public void SetColor(Color color){
+        topImage.GetComponent<Image>().color = color;
+        bottomImage.GetComponent<Image>().color = color;
     }
 }
