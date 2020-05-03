@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] int timeToReact = 30;
+    [SerializeField] float provocationTime = 3f;
     [SerializeField] float randomLowerTime = 2f;
     [SerializeField] float randomUpperTime = 4f;
-
     [SerializeField] GameObject nextButton;
+    [SerializeField] GameObject retryButton;
     [SerializeField] GameObject enemyGameObject;
 
     [SerializeField] List<EnemyInfo> enemies;
@@ -24,6 +25,9 @@ public class GameManager : MonoBehaviour
 
     public delegate void OnStartDuel();
     public event OnStartDuel call_OnStartDuel_Events;
+
+    public delegate void OnProvocationTime();
+    public event OnProvocationTime call_OnProvocationTime_Events;
     public delegate void OnStartClash();
     public event OnStartClash call_OnStartClash_Events;
 
@@ -88,7 +92,10 @@ public class GameManager : MonoBehaviour
         NextEnemy();
 
         //Stop spamming logic
-        yield return new WaitForSeconds(3f);
+        if(call_OnProvocationTime_Events != null){
+            call_OnProvocationTime_Events();
+        }
+        yield return new WaitForSeconds(provocationTime);
         counting = true;
 
         while(true){
@@ -135,8 +142,12 @@ public class GameManager : MonoBehaviour
             call_OnEndSequence_Events(winnerOfClash);
         }
         yield return new WaitForSeconds(3f);
-        PlayerState.Instance.enemyIdx++;
-        ShowNextButton();
+        if(winnerOfClash == "player"){
+            PlayerState.Instance.enemyIdx++;
+            ShowNextButton();
+        } else {
+            ShowRetryButton();
+        }
     }
 
     void NextEnemy(){
@@ -147,11 +158,15 @@ public class GameManager : MonoBehaviour
         timeToReact = enemies[enemyIdx].timeToReact;
     }
 
-    void NextScene(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     void ShowNextButton(){
         nextButton.SetActive(true);
+    }
+
+    void ShowRetryButton(){
+        retryButton.SetActive(true);
+    }
+
+    public float GetProvocationTime(){
+        return provocationTime;
     }
 }

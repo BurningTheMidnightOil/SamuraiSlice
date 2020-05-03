@@ -61,7 +61,7 @@ public class SFXManager : MonoBehaviour
     void PlayEndSequenceSounds(string winner)
     {
         StopPlaying();
-        
+
         if (winner == "player")
         {
             backgroundSound1.PlayOneShot(fanfareFX);

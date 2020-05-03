@@ -9,6 +9,7 @@ public class Samurai : MonoBehaviour
 
     [SerializeField] GameObject topImage;
     [SerializeField] GameObject bottomImage;
+
     void Start()
     {
         GameManager.Instance.call_OnEndClash_Events += ReactToEndClash;
