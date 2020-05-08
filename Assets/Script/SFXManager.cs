@@ -31,7 +31,7 @@ public class SFXManager : MonoBehaviour
         GameManager.Instance.call_OnStartDuel_Events += PlayInitialBackgorundSound;
         GameManager.Instance.call_OnStartClash_Events += PlayClashSounds;
         GameManager.Instance.call_OnEndClash_Events += PlayEndClashSounds;
-        GameManager.Instance.call_OnEndSequence_Events += PlayEndSequenceSounds;
+        GameManager.Instance.call_OnDelayedDeath_Events += PlayEndSequenceSounds;
     }
 
     void PlayInitialBackgorundSound() {

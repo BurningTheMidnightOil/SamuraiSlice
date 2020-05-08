@@ -14,19 +14,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject nextButton;
     [SerializeField] GameObject retryButton;
     [SerializeField] GameObject enemyGameObject;
-
+    [SerializeField] GameObject tutorialMsgScreen;
+    [SerializeField] GameObject gameEndMsgScreen;
     [SerializeField] List<EnemyInfo> enemies;
 
     int enemyIdx = 0;
-
     string winnerOfClash;
+    bool skipTutorial = false;
     bool started = false;
     bool counting = false;
     int timer;
 
     public delegate void OnStartDuel();
     public event OnStartDuel call_OnStartDuel_Events;
-
     public delegate void OnProvocationTime();
     public event OnProvocationTime call_OnProvocationTime_Events;
     public delegate void OnStartClash();
@@ -83,10 +83,14 @@ public class GameManager : MonoBehaviour
     }
     public void PlayerClick()
     {
-        if(started){
-            EndClash("player");
-        } else if(counting) {
-            EndClash("enemy");
+        if(SkipTutorial()){
+            if(started){
+                EndClash("player");
+            } else if(counting) {
+                EndClash("enemy");
+            }
+        } else {
+            skipTutorial = true;
         }
     }
 
@@ -94,6 +98,8 @@ public class GameManager : MonoBehaviour
 
         //Set enemy
         NextEnemy();
+        
+        yield return new WaitUntil(() => SkipTutorial());
 
         //Stop spamming logic
         if(call_OnProvocationTime_Events != null){
@@ -153,7 +159,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         if(winnerOfClash == "player"){
             PlayerState.Instance.enemyIdx++;
-            ShowNextButton();
+            if(PlayerState.Instance.enemyIdx > enemies.Count - 1){
+                gameEndMsgScreen.SetActive(true);
+                PlayerState.Instance.enemyIdx--;
+            } else {
+                ShowNextButton();
+            }
         } else {
             ShowRetryButton();
         }
@@ -181,5 +192,13 @@ public class GameManager : MonoBehaviour
 
     public float GetDelayedDeathTime(){
         return delayedDeathTime;
+    }
+
+    bool SkipTutorial(){
+        if(PlayerState.Instance.enemyIdx != 0 || skipTutorial){
+            tutorialMsgScreen.SetActive(false);
+            return true;
+        }
+        return false;
     }
 }

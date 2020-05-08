@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class BackButtonListener : MonoBehaviour
 {
     public void BackToMainMenu(){
+        PlayerState.Instance.enemyIdx = 0;
         SceneManager.LoadScene(0);
     }
 }
