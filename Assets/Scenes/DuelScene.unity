@@ -472,11 +472,11 @@ MonoBehaviour:
   - r: 0.6
     g: 0.9
     b: 0.3
-    timeToReact: 50
+    timeToReact: 40
   - r: 0.6
     g: 0.5
     b: 0.5
-    timeToReact: 50
+    timeToReact: 30
 --- !u!1 &150264673
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +934,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.923401, y: -76}
+  m_AnchoredPosition: {x: -9.923462, y: -76}
   m_SizeDelta: {x: -109.99313, y: -638.55817}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &474342262
@@ -1207,7 +1207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.923401, y: -76}
+  m_AnchoredPosition: {x: -9.923462, y: -76}
   m_SizeDelta: {x: -109.99313, y: -638.55817}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &615336963 stripped
